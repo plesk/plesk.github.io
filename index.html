@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plesk Open Source Projects</title>
+    <link href="assets/images/favicon.ico" rel="icon" type="image/x-icon">
+    <link rel="stylesheet" href="assets/css/index.css">
+</head>
+<body>
+
+<header class="page-header">
+    <div class="page-header__inner">
+
+        <div class="page-header__top">
+            <div class="page-header__top-inner">
+                <a class="page-header__logo" href="#!">
+                    <svg class="page-header__logo-image" role="img" width="91" height="38"><use xlink:href="assets/images/symbols.svg#logo"/></svg>
+                </a>
+                <nav class="main-nav">
+                    <ul class="main-nav__list">
+                        <li class="main-nav__item">
+                          <a class="main-nav__link" target="_blank" href="https://github.com/plesk">We @ GitHub</a>
+                        </li>
+                        <li class="main-nav__item">
+                          <a class="main-nav__link" target="_blank" href="https://www.plesk.com">Official Website</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <div class="page-header__main">
+            <h1 class="page-header__title">Plesk <span class="page-header__subtitle">Open Source Projects</span></h1>
+            <ul class="page-header__stats stats">
+                <li class="stats__item">
+                    <span class="stats__label">
+                        <svg class="icon stats__icon"><use xlink:href="assets/images/symbols.svg#i-star"/></svg>
+                        <span>Stars</span>
+                    </span>
+                    <span class="stats__count stats__count-stars"></span>
+                </li>
+                <li class="stats__item">
+                    <span class="stats__label">
+                        <svg class="icon stats__icon"><use xlink:href="assets/images/symbols.svg#i-repo"/></svg>
+                        <span>Repositories</span>
+                    </span>
+                    <span class="stats__count stats__count-repos"></span>
+                </li>
+                <li class="stats__item">
+                    <span class="stats__label">
+                        <svg class="icon stats__icon"><use xlink:href="assets/images/symbols.svg#i-code"/></svg>
+                        <span>Languages</span>
+                    </span>
+                    <span class="stats__count stats__count-languages"></span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</header>
+
+<div class="page-content">
+    <div class="page-content__section">
+        <div class="page-content__wrapper">
+            <h2 class="page-heading">Repositories</h2>
+            <div class="languages">
+                <h3 class="languages__title">Top languages</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-content__section page-content__section--repos">
+        <div class="page-content__wrapper">
+            <ol class="repos"></ol>
+        </div>
+    </div>
+</div>
+<footer class="page-footer">
+    <div class="page-footer__inner">
+        <div class="footer-copyright">© 2017 Plesk International GmbH. All rights reserved. Plesk and the Plesk logo are trademarks of Plesk International GmbH.</div>
+    </div>
+</footer>
+</div>
+<script src="vendors/jquery-3.2.1.min.js"></script>
+<script src="vendors/svg4everybody.min.js"></script>
+<script>
+    $(window).scroll(function(){
+        if ($(window).scrollTop() >= 140) { $('.page-header__top').addClass('page-header__top--fixed'); }
+        else { $('.page-header__top').removeClass('page-header__top--fixed'); }
+    });
+    svg4everybody();
+
+    $(function() {
+      const apiUrl = 'https://api.github.com/orgs/plesk';
+      const clientId = '1f85ed38d30506c0c286';
+      const clientSecret = '8c5880f173e99e68e16b05ed08277313670f526c';
+      let totalStars = 0;
+      const languages = {};
+
+      $.ajax(`${apiUrl}/repos?per_page=1000&client_id=${clientId}&client_secret=${clientSecret}`, {
+        success: (data) => {
+          data.sort((a, b) =>  b.stargazers_count - a.stargazers_count).forEach((repo) => {
+            totalStars += repo.stargazers_count;
+
+            if (repo.language) {
+              languages[repo.language] = languages[repo.language] ? ++languages[repo.language] : 1;
+            }
+
+            $('ol.repos').append(`
+              <li class="repos__item repo">
+                  <div class="card">
+                      <header class="card__header">
+                          <a class="repo__title" href="${repo.html_url}" target="_blank">
+                              <span class="repo__title-text">${repo.name}</span>
+                              <svg class="icon repo__title-icon"><use xlink:href="assets/images/symbols.svg#i-${repo.name.startsWith('ext-') ? 'package' : 'repo'}"/></svg>
+                          </a>
+                      </header>
+                      <div class="card__content">
+                          <div class="repo__description">${repo.description || ''}</div>
+                      </div>
+                      <footer class="card__footer">
+                          <div class="repo__summary">
+                              ${!repo.language ? '' :
+                                  `<span class="repo__summary-item">
+                                      <svg class="icon repo__summary-icon"><use xlink:href="assets/images/symbols.svg#i-code"/></svg>
+                                      <span class="repo__summary-text">${repo.language}</span>
+                                  </span>`
+                              }
+                              <a href="${repo.html_url}/stargazers" target="_blank" class="repo__summary-item">
+                                  <svg class="icon repo__summary-icon"><use xlink:href="assets/images/symbols.svg#i-star"/></svg>
+                                  <span class="repo__summary-text">${repo.stargazers_count}</span>
+                              </a>
+                              <a href="${repo.html_url}/network" target="_blank" class="repo__summary-item">
+                                  <svg class="icon repo__summary-icon"><use xlink:href="assets/images/symbols.svg#i-repo-forked"/></svg>
+                                  <span class="repo__summary-text">${repo.forks_count}</span>
+                              </a>
+                              ${!repo.homepage ? '' :
+                                  `<a href="${repo.homepage}" target="_blank" class="repo__summary-item">
+                                      <svg class="icon repo__summary-icon"><use xlink:href="assets/images/symbols.svg#i-globe"/></svg>
+                                      <span class="repo__summary-text">Website</span>
+                                  </a>`
+                              }
+                          </div>
+                      </footer>
+                  </div>
+              </li>
+            `);
+          });
+
+          $('.stats__count-stars').text(totalStars);
+          $('.stats__count-repos').text(data.length);
+          $('.stats__count-languages').text(Object.keys(languages).length);
+
+          const colors = ['4f5d95', 'f1e05a', '89e051'];
+          Object.keys(languages).sort((a, b) => languages[b] - languages[a]).slice(0, 3).forEach((language, index) => {
+            $('.languages').append(
+              `<a class="languages__name" href="https://github.com/plesk?language=${language.toLowerCase()}" target="_blank" style="background-color:#${colors[index]};">${language}</a>`
+            );
+          });
+        }
+      });
+    });
+</script>
+</body>
+</html>

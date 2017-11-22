@@ -1,0 +1,44 @@
+{
+  "name": "plesk.github.io",
+  "description": "Plesk Github Pages",
+  "version": "1.0.0",
+  "devDependencies": {
+    "@plesk/eslint-config": "0.0.6",
+    "@plesk/stylelint-config": "0.0.3",
+    "autoprefixer": "^7.1.1",
+    "css-loader": "^0.28.4",
+    "extract-text-webpack-plugin": "^2.1.2",
+    "file-loader": "^0.11.2",
+    "less": "^2.7.2",
+    "less-loader": "^4.0.4",
+    "postcss-loader": "^2.0.6",
+    "style-loader": "^0.18.2",
+    "webpack": "^2.3.2",
+    "webpack-rtl-plugin": "^1.6.0"
+  },
+  "engines": {
+    "node": ">=4"
+  },
+  "browserslist": [
+    "last 2 versions",
+    ">1%"
+  ],
+  "scripts": {
+    "dev": "webpack --env.dev",
+    "build": "webpack",
+    "prepare": "npm run build",
+    "lint": "npm run lint:es && npm run lint:style",
+    "lint:es": "eslint src",
+    "lint:style": "stylelint \"src/styles/**/*.less\"",
+    "pretest": "npm run lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "private": true,
+  "license": "UNLICENSED",
+  "dependencies": {
+    "copy-webpack-plugin": "^4.1.1"
+  }
+}
