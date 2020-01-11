@@ -3,8 +3,8 @@
   "description": "Plesk Github Pages",
   "version": "1.0.0",
   "devDependencies": {
-    "@plesk/eslint-config": "0.0.6",
-    "@plesk/stylelint-config": "0.0.3",
+    "@plesk/eslint-config": "1.1.0",
+    "@plesk/stylelint-config": "0.0.5",
     "autoprefixer": "^7.1.1",
     "css-loader": "^0.28.4",
     "extract-text-webpack-plugin": "^2.1.2",
