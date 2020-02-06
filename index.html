@@ -92,12 +92,10 @@
 
     $(function() {
       const apiUrl = 'https://api.github.com/orgs/plesk';
-      const clientId = '1f85ed38d30506c0c286';
-      const clientSecret = '8c5880f173e99e68e16b05ed08277313670f526c';
       let totalStars = 0;
       const languages = {};
 
-      $.ajax(`${apiUrl}/repos?per_page=1000&client_id=${clientId}&client_secret=${clientSecret}`, {
+      $.ajax(`${apiUrl}/repos?per_page=1000`, {
         success: (data) => {
           data.sort((a, b) =>  b.stargazers_count - a.stargazers_count).forEach((repo) => {
             totalStars += repo.stargazers_count;
