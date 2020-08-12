@@ -97,7 +97,7 @@
 
       $.ajax(`${apiUrl}/repos?per_page=1000`, {
         success: (data) => {
-          data.sort((a, b) =>  b.stargazers_count - a.stargazers_count).forEach((repo) => {
+          data.filter(repo => !repo.archived).sort((a, b) =>  b.stargazers_count - a.stargazers_count).forEach((repo) => {
             totalStars += repo.stargazers_count;
 
             if (repo.language) {
